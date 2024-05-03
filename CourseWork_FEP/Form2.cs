@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -110,7 +111,7 @@ namespace CourseWork_FEP
 				double step = Convert.ToDouble(textBox4.Text);
 				int maxIter = Convert.ToInt32(textBox2.Text);
 
-				isLimitIterations(initialGuess, endGuess, step);
+				isDataValid(initialGuess, endGuess, step);
 
 				// Очистим график перед построением нового
 				chart1.Series.Clear();
@@ -211,17 +212,69 @@ namespace CourseWork_FEP
 			}
 
 		}
-		private void isLimitIterations(double initialGuess, double endGuess, double step)
+
+		private void isDataValid(double initialGuess, double endGuess, double step) {
+			int maxItersLimit = 10_000;
+
+			if (endGuess < initialGuess)
+				throw new Exception("Начальное напряжение не может быть больше конечного.");
+			else if (step < 0)
+				throw new Exception("Шаг не может быть отрицательным.");
+			else if (Math.Ceiling((endGuess - initialGuess) / step) + 1 > maxItersLimit)
+				throw new Exception($"Разница между начальным и конечным напряжение с учетом шага не должна превышать {maxItersLimit}");
+
+		}
+
+		private void SaveDataButton_Click(object sender, EventArgs e)
 		{
-			// Вычисляем количество значений в диапазоне с заданным шагом
-			int valuesCount = (int)Math.Ceiling((endGuess - initialGuess) / step) + 1;
+			try
+			{
+				if (listBox1.Items.Count < 1)
+					throw new Exception("Вы не провели вычисления. Сохранять нечего.");
+				
+				// Создаем строку для сохранения данных
+				StringBuilder dataToSave = new StringBuilder();
 
-			// Максимальное количество итераций
-			int maxIterations = 10000;
+				dataToSave.AppendLine("Дата и время сохранения: " + DateTime.Now.ToString());
 
-			// Если общее количество итераций превышает максимальное, ограничиваем его
-			if (valuesCount > maxIterations)
-				throw new Exception("Разница между начальным и конечным напряжение с учетом шага не должна превышать 10000");
+				// Добавляем данные из TextBox
+				dataToSave.AppendLine("\nНачальное предположение для напряжения: " + textBox1.Text);
+				dataToSave.AppendLine("Конечное предположение для напряжения: " + textBox3.Text);
+				dataToSave.AppendLine("Шаг изменения напряжения: " + textBox4.Text);
+				dataToSave.AppendLine("Максимальное количество итераций: " + textBox2.Text);
+
+				// Добавляем данные из ListBox
+				dataToSave.AppendLine("\nНайденые корни: ");
+				foreach (string item in listBox1.Items) // Предполагается, что у вас есть ListBox с именем listBox1
+				{
+					dataToSave.AppendLine(item);
+				}
+
+				// Запрашиваем у пользователя путь для сохранения файла
+				SaveFileDialog saveFileDialog = new SaveFileDialog();
+				saveFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
+				saveFileDialog.FilterIndex = 1;
+				saveFileDialog.RestoreDirectory = true;
+
+				saveFileDialog.FileName = $"result_{DateTime.Now.ToString("dd-MM-yyyy")}.txt";
+
+				if (saveFileDialog.ShowDialog() == DialogResult.OK)
+				{
+					// Получаем выбранный пользователем путь к файлу
+					string filePath = saveFileDialog.FileName;
+
+					// Записываем данные в выбранный файл
+					File.WriteAllText(filePath, dataToSave.ToString());
+
+					// Показываем сообщение об успешном сохранении
+					MessageBox.Show("Данные успешно сохранены.", "Сохранение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+			}
+			catch (Exception ex)
+			{
+				// Показываем сообщение об ошибке, если что-то пошло не так
+				MessageBox.Show("Ошибка при сохранении данных: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 	}
