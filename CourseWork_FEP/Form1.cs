@@ -16,5 +16,17 @@ namespace CourseWork_FEP
 		{
 			InitializeComponent();
 		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			// Создаем новую форму
+			Form2 from2 = new Form2(this);
+
+			// Скрываем текущую (основную) форму
+			this.Hide();
+
+			// Отображаем новую форму
+			from2.Show();
+		}
 	}
 }
