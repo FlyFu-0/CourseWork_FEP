@@ -31,10 +31,11 @@
 			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
 			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
 			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.textBox2 = new System.Windows.Forms.TextBox();
+			this.textBox4 = new System.Windows.Forms.TextBox();
 			this.button1 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.button3 = new System.Windows.Forms.Button();
@@ -42,10 +43,10 @@
 			this.button5 = new System.Windows.Forms.Button();
 			this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			this.label5 = new System.Windows.Forms.Label();
-			this.textBox3 = new System.Windows.Forms.TextBox();
+			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.listBox1 = new System.Windows.Forms.ListBox();
 			this.label3 = new System.Windows.Forms.Label();
-			this.textBox4 = new System.Windows.Forms.TextBox();
+			this.textBox3 = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -82,17 +83,17 @@
 			this.label2.Text = "Максимальное количество\r\nитераций";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// textBox2
+			// textBox4
 			// 
-			this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.830189F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.textBox2.Location = new System.Drawing.Point(228, 227);
-			this.textBox2.Margin = new System.Windows.Forms.Padding(10);
-			this.textBox2.MaxLength = 4;
-			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(131, 22);
-			this.textBox2.TabIndex = 2;
-			this.textBox2.Text = "1000";
-			this.textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox2_KeyPress);
+			this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.830189F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.textBox4.Location = new System.Drawing.Point(228, 227);
+			this.textBox4.Margin = new System.Windows.Forms.Padding(10);
+			this.textBox4.MaxLength = 5;
+			this.textBox4.Name = "textBox4";
+			this.textBox4.Size = new System.Drawing.Size(131, 22);
+			this.textBox4.TabIndex = 2;
+			this.textBox4.Text = "1000";
+			this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox2_KeyPress);
 			// 
 			// button1
 			// 
@@ -126,6 +127,7 @@
 			this.button3.TabIndex = 6;
 			this.button3.Text = "Загрузить значения\r\n";
 			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Click += new System.EventHandler(this.buttonLoad_Click);
 			// 
 			// button4
 			// 
@@ -176,16 +178,16 @@
 			this.label5.Text = "Конечное предположение \r\nдля напряжения";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// textBox3
+			// textBox2
 			// 
-			this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.830189F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.textBox3.Location = new System.Drawing.Point(228, 122);
-			this.textBox3.MaxLength = 5;
-			this.textBox3.Name = "textBox3";
-			this.textBox3.Size = new System.Drawing.Size(131, 22);
-			this.textBox3.TabIndex = 12;
-			this.textBox3.Text = "14";
-			this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Control_KeyPress);
+			this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.830189F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.textBox2.Location = new System.Drawing.Point(228, 122);
+			this.textBox2.MaxLength = 5;
+			this.textBox2.Name = "textBox2";
+			this.textBox2.Size = new System.Drawing.Size(131, 22);
+			this.textBox2.TabIndex = 12;
+			this.textBox2.Text = "14";
+			this.textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Control_KeyPress);
 			// 
 			// listBox1
 			// 
@@ -208,16 +210,16 @@
 			this.label3.Text = "Шаг изменения напряжения";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// textBox4
+			// textBox3
 			// 
-			this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.830189F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.textBox4.Location = new System.Drawing.Point(228, 178);
-			this.textBox4.MaxLength = 5;
-			this.textBox4.Name = "textBox4";
-			this.textBox4.Size = new System.Drawing.Size(131, 22);
-			this.textBox4.TabIndex = 15;
-			this.textBox4.Text = "1";
-			this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Control_KeyPress);
+			this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.830189F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.textBox3.Location = new System.Drawing.Point(228, 178);
+			this.textBox3.MaxLength = 5;
+			this.textBox3.Name = "textBox3";
+			this.textBox3.Size = new System.Drawing.Size(131, 22);
+			this.textBox3.TabIndex = 15;
+			this.textBox3.Text = "1";
+			this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Control_KeyPress);
 			// 
 			// Form2
 			// 
@@ -225,10 +227,10 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(714, 459);
 			this.Controls.Add(this.label3);
-			this.Controls.Add(this.textBox4);
+			this.Controls.Add(this.textBox3);
 			this.Controls.Add(this.listBox1);
 			this.Controls.Add(this.label5);
-			this.Controls.Add(this.textBox3);
+			this.Controls.Add(this.textBox2);
 			this.Controls.Add(this.chart1);
 			this.Controls.Add(this.button5);
 			this.Controls.Add(this.button4);
@@ -236,9 +238,10 @@
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.textBox2);
+			this.Controls.Add(this.textBox4);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.textBox1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MaximumSize = new System.Drawing.Size(730, 500);
 			this.MinimizeBox = false;
@@ -257,7 +260,7 @@
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TextBox textBox2;
+		private System.Windows.Forms.TextBox textBox4;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button button3;
@@ -265,9 +268,9 @@
 		private System.Windows.Forms.Button button5;
 		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.TextBox textBox3;
+		private System.Windows.Forms.TextBox textBox2;
 		private System.Windows.Forms.ListBox listBox1;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox textBox4;
+		private System.Windows.Forms.TextBox textBox3;
 	}
 }

@@ -107,16 +107,15 @@ namespace CourseWork_FEP
 			try
 			{
 				double initialGuess = Convert.ToDouble(textBox1.Text);
-				double endGuess = Convert.ToDouble(textBox3.Text);
-				double step = Convert.ToDouble(textBox4.Text);
-				int maxIter = Convert.ToInt32(textBox2.Text);
+				double endGuess = Convert.ToDouble(textBox2.Text);
+				double step = Convert.ToDouble(textBox3.Text);
+				int maxIter = Convert.ToInt32(textBox4.Text);
 
 				isDataValid(initialGuess, endGuess, step);
 
 				// Очистим график перед построением нового
 				chart1.Series.Clear();
 				listBox1.Items.Clear();
-				listBox1.ForeColor = Color.Black;
 
 				// Создаем серию данных для графика
 				Series series = new Series();
@@ -239,9 +238,9 @@ namespace CourseWork_FEP
 
 				// Добавляем данные из TextBox
 				dataToSave.AppendLine("\nНачальное предположение для напряжения: " + textBox1.Text);
-				dataToSave.AppendLine("Конечное предположение для напряжения: " + textBox3.Text);
-				dataToSave.AppendLine("Шаг изменения напряжения: " + textBox4.Text);
-				dataToSave.AppendLine("Максимальное количество итераций: " + textBox2.Text);
+				dataToSave.AppendLine("Конечное предположение для напряжения: " + textBox4.Text);
+				dataToSave.AppendLine("Шаг изменения напряжения: " + textBox2.Text);
+				dataToSave.AppendLine("Максимальное количество итераций: " + textBox3.Text);
 
 				// Добавляем данные из ListBox
 				dataToSave.AppendLine("\nНайденые корни: ");
@@ -274,6 +273,123 @@ namespace CourseWork_FEP
 			{
 				// Показываем сообщение об ошибке, если что-то пошло не так
 				MessageBox.Show("Ошибка при сохранении данных: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		private void buttonLoad_Click(object sender, EventArgs e)
+		{
+			// Вызываем диалоговое окно для выбора файла
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				// Получаем путь к выбранному файлу
+				string filePath = openFileDialog.FileName;
+
+				// Загружаем значения из файла
+				LoadFromFile(filePath);
+			}
+		}
+
+		private void LoadFromFile(string filePath)
+		{
+			try
+			{
+				// Проверяем, существует ли файл
+				if (File.Exists(filePath))
+				{
+					// Читаем все строки из файла
+					string[] lines = File.ReadAllLines(filePath);
+
+					// Очищаем текстовые поля перед загрузкой новых значений
+					listBox1.Items.Clear();
+
+					List<string> nums = new List<string>();
+					bool formatFlag = true;
+					bool OKFlag = true;
+
+					// Загружаем значения из файла в текстовое поле и список
+					foreach (string line in lines)
+					{
+						if (!double.TryParse(line, out var n))
+							formatFlag = false;
+
+						nums.Add(line);
+					}
+
+					if (formatFlag)
+					{
+						for (int i = 0; i < nums.Count; i++)
+						{
+							if (nums[i].Length > 5)
+								nums[i] = nums[i].Substring(0, 5);
+							TextBox textBox = Controls.Find("textBox" + (i + 1), true).FirstOrDefault() as TextBox;
+							if (textBox != null)
+							{
+								textBox.Text = nums[i];
+								OKFlag = false;
+							}
+						}
+						return;
+					}
+
+					List<TextBox> textBoxes = new List<TextBox>
+					{
+						textBox1,
+						textBox2,
+						textBox3,
+						textBox4
+					};
+					List<string> subStrings = new List<string>
+					{
+						"Начальное предположение для напряжения: ",
+						"Конечное предположение для напряжения: ",
+						"Шаг изменения напряжения: ",
+						"Максимальное количество итераций: "
+					};
+
+					for (int i = 0; i < nums.Count; i++)
+					{
+						string input = nums[i];
+						for (int j = 0; j < subStrings.Count; j++)
+						{
+							string subString = subStrings[j];
+
+							// Проверяем, содержит ли строка нужную подстроку
+							if (input.Contains(subString))
+							{
+								// Получаем индекс начала подстроки
+								int index = input.IndexOf(subString);
+
+								// Выделяем подстроку с числом
+								string numberString = input.Substring(index + subString.Length);
+
+								if (numberString.Length > 5)
+									numberString = numberString.Substring(0, 5);
+								// Пытаемся преобразовать подстроку в число
+								if (double.TryParse(numberString, out double number))
+								{
+									// Вставляем число в соответствующий текстбокс
+									textBoxes[j].Text = number.ToString();
+									OKFlag = false;
+								}
+							}
+						}
+					}
+					if (OKFlag)
+						throw new Exception("Неверный формат файла. Загрузка не выполнена.");
+				}
+				else
+				{
+					// Файл не существует, вы можете обработать это соответствующим образом
+					MessageBox.Show("Файл не найден.");
+				}
+			}
+			catch (Exception ex)
+			{
+				// Обработка ошибок, если что-то пошло не так
+				MessageBox.Show($"Ошибка при чтении файла: {ex.Message}");
 			}
 		}
 
