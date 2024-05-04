@@ -109,7 +109,7 @@ namespace CourseWork_FEP
 				double initialGuess = Convert.ToDouble(textBox1.Text);
 				double endGuess = Convert.ToDouble(textBox2.Text);
 				double step = Convert.ToDouble(textBox3.Text);
-				int maxIter = Convert.ToInt32(textBox4.Text);
+				int maxIter = int.TryParse(textBox4.Text, out var n) ? n: throw new Exception("Максимальное количество итераций должно быть целочисленным");
 
 				isDataValid(initialGuess, endGuess, step);
 
@@ -167,7 +167,7 @@ namespace CourseWork_FEP
 		}
 
 		// Метод Ньютона для нахождения корня
-		static double Newton(double initialGuess, double tolerance = 1e-6, int maxIterations = 1000)
+		static double Newton(double initialGuess, double tolerance = 1e-6, double maxIterations = 1000)
 		{
 			double V = initialGuess;
 			for (int i = 0; i < maxIterations; i++)
@@ -221,7 +221,6 @@ namespace CourseWork_FEP
 				throw new Exception("Шаг не может быть отрицательным.");
 			else if (Math.Ceiling((endGuess - initialGuess) / step) + 1 > maxItersLimit)
 				throw new Exception($"Разница между начальным и конечным напряжение с учетом шага не должна превышать {maxItersLimit}");
-
 		}
 
 		private void SaveDataButton_Click(object sender, EventArgs e)
@@ -393,5 +392,15 @@ namespace CourseWork_FEP
 			}
 		}
 
+		private void openHelp(object sender, EventArgs e)
+		{
+			Form3 form3 = new Form3();
+			form3.Show();
+		}
+
+		private void выйтиToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
 	}
 }

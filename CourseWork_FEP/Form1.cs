@@ -28,5 +28,16 @@ namespace CourseWork_FEP
 			// Отображаем новую форму
 			from2.Show();
 		}
+
+		private void выйтиToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
+
+		private void openHelp(object sender, EventArgs e)
+		{
+			Form3 form3 = new Form3();
+			form3.Show();
+		}
 	}
 }
